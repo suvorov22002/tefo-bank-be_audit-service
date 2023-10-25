@@ -1,0 +1,13 @@
+server:
+  port: 18082
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queues:
+    notification: audittrail.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key
+elasticsearch:
+  url: ${ELK_URL:localhost}
+  port: ${ELK_PORT:9200}
+  protocol: ${ELK_SCHEME:http}

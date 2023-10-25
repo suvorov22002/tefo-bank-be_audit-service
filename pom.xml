@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.0.6</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<packaging>jar</packaging>
+	<groupId>com.pkf.cbs</groupId>
+	<artifactId>historization-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>audit-trail-service</name>
+	<description>Audit trail service</description>
+	<properties>
+		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+		<java.version>17</java.version>
+		<mongodb.version>4.9.1</mongodb.version>
+		<mongodb-liquibase.version>4.20.0</mongodb-liquibase.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
+		<instancio-junit.version>2.11.0</instancio-junit.version>
+		<embedded-mongo.version>4.6.2</embedded-mongo.version>
+		<org.elasticsearch.version>7.4.0</org.elasticsearch.version>
+		<nexus-custom-data-library.repository>http://localhost:8081/repository/custom-data-library-release/</nexus-custom-data-library.repository>
+		<nexus-common-utils-library.repository>http://localhost:8081/repository/common-utils-library-release/</nexus-common-utils-library.repository>
+		<custom-field-lib.version>1.0.28</custom-field-lib.version>
+		<common-utils-lib.version>1.0.10</common-utils-lib.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!--Mongo dependencies-->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-core</artifactId>
+			<version>${mongodb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-sync</artifactId>
+			<version>${mongodb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>bson</artifactId>
+			<version>${mongodb.version}</version>
+		</dependency>
+
+		<!-- Liquibase dependency -->
+		<dependency>
+			<groupId>org.liquibase.ext</groupId>
+			<artifactId>liquibase-mongodb</artifactId>
+			<version>${mongodb-liquibase.version}</version>
+		</dependency>
+
+		<!--Dependencies for testing-->
+		<dependency>
+			<groupId>org.instancio</groupId>
+			<artifactId>instancio-junit</artifactId>
+			<version>${instancio-junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo.spring30x</artifactId>
+			<scope>test</scope>
+			<version>${embedded-mongo.version}</version>
+		</dependency>
+
+		<!--Other tools-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${org.mapstruct.version}</version>
+		</dependency>
+
+		<!-- ElasticSearch stacks-->
+		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>elasticsearch-rest-high-level-client</artifactId>
+			<version>${org.elasticsearch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>elasticsearch-rest-client</artifactId>
+			<version>${org.elasticsearch.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>${org.elasticsearch.version}</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.11.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.tefo.library</groupId>
+			<artifactId>common-utils-library</artifactId>
+			<version>${common-utils-lib.version}</version>
+		</dependency>
+
+		<!--Custom Library Integration-->
+		<dependency>
+			<groupId>com.tefo.library</groupId>
+			<artifactId>custom-data-library</artifactId>
+			<version>${custom-field-lib.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>customdatalibrary</id>
+			<url>${nexus-custom-data-library.repository}</url>
+		</repository>
+		<repository>
+			<id>commonutilslibrary</id>
+			<url>${nexus-common-utils-library.repository}</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version> <!--From parent-->
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version> <!--From parent-->
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok-mapstruct-binding</artifactId>
+							<version>${lombok-mapstruct-binding.version}</version>
+						</path>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${org.mapstruct.version}</version>
+						</path>
+
+						<path>
+							<groupId>com.tefo.library</groupId>
+							<artifactId>custom-data-library</artifactId>
+							<version>${custom-field-lib.version}</version>
+						</path>
+						<path>
+							<groupId>com.tefo.library</groupId>
+							<artifactId>common-utils-library</artifactId>
+							<version>${common-utils-lib.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<configuration>
+					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
