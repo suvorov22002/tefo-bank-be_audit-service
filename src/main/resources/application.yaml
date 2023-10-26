@@ -1,5 +1,5 @@
 server:
-  port: 18082
+  port: ${PORT}
 rabbitmq:
   exchanges:
     internal: internal.exchange
@@ -11,3 +11,24 @@ elasticsearch:
   url: ${ELK_URL:localhost}
   port: ${ELK_PORT:9200}
   protocol: ${ELK_SCHEME:http}
+
+#Mongo db properties
+spring:
+  data:
+    mongodb:
+      uri: ${DB_URL}
+  application:
+    name: ${AUDIT_TRAIL_SERVICE_NAME:audit-trail-service-svc}
+
+#Liquibase properties
+  liquibase:
+    change-log: src/main/resources/changelog/liquibase-changeLog.json
+    url: ${DB_URL}
+    enabled: true
+
+#OpenAPI properties
+springdoc:
+  swagger-ui:
+    path: /audit-trail/swagger-ui.html
+  api-docs.path: /audit-trail/v3/api-docs
+

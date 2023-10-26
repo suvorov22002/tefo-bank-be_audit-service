@@ -1,0 +1,43 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2023-10-26",
+        "author": "Rodrigue T",
+        "comment": "Create Audit trace collection",
+        "changes": [
+          {
+            "createCollection": {
+              "collectionName": "audit_trace",
+              "options": {
+                "$rawJson": {
+                  "validator": {
+                    "$jsonSchema": {
+                      "bsonType": "object",
+                      "required": [
+                        "index"
+                      ],
+                      "properties": {
+                        "id": {
+                          "bsonType": "string"
+                        },
+                        "index": {
+                          "bsonType": "string"
+                        },
+                        "source": {
+                          "bsonType": "string"
+                        }
+                      }
+                    }
+                  },
+                  "validationAction": "error",
+                  "validationLevel": "strict"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
